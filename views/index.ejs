@@ -102,7 +102,7 @@
         //이것 없으면 계속 요청이 보내진다.
         if(last_result_predict!=predict_id){
 
-          //ajax로 서버에 그 id에 해당하는 이미지주소를 달라고 요청한다.
+          //ajax로 서버에 그 id에 해당하는 이미지의 주소와 음성파일을 달라고 요청한다.
           if(predict_id > 0){
             //last_result_predict값을 지금 결과로 나옴 predict로 초기화해준다. 
             last_result_predict = predict_id;
@@ -112,14 +112,29 @@
                     datatype:'json',
                     url: '/data?id='+predict_id,
                     success: function(result) {
-                    //결과값 확인
                     console.log(result);
+
+                    //받아온 json데이터를 처리한다
+                    process_json(result);
                   }
                 });
               })
           }
         }
     }
+
+    //JSON 데이터 처리
+    function process_json(json_data){
+        var images = json_data.image;
+        var strDOM = "";
+
+        //이미지 태그 생성
+        strDOM += '<img src="'+images+'">';
+
+        //#cehck_image div의 이미지 교체
+        $('#check_image').html(strDOM);
+    }
+
     </script>
    </body>
 </html>
