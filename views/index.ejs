@@ -7,66 +7,119 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
-
     <!--https://teachablemachine.withgoogle.com/ 를 통해 학습시키고 얻은 스켈레톤 코드 -->
+
     <div>Teachable Machine Image Model</div>
     <button type="button" onclick="init()">Start</button>
     <div id="webcam-container"></div>
     <div id="label-container"></div>
+    <div id="check_image">
+        <img src="/images/1.jpg">
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
-        // More API functions here:
-        // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
+    // More API functions here:
+    // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
 
-        // the link to your model provided by Teachable Machine export panel
-        const URL = "https://teachablemachine.withgoogle.com/models/2QtWMcVET/";
+    // the link to your model provided by Teachable Machine export panel
+    const URL = "https://teachablemachine.withgoogle.com/models/2QtWMcVET/";
+    
+    let model, webcam, labelContainer, maxPredictions;
 
-        let model, webcam, labelContainer, maxPredictions;
+    //predic이전 값을 기억해주는 전역변수. -999로 초기화.
+    var last_result_predict=-999;
 
-        // Load the image model and setup the webcam
-        async function init() {
-            const modelURL = URL + "model.json";
-            const metadataURL = URL + "metadata.json";
+    // Load the image model and setup the webcam
+    async function init() {
+        const modelURL = URL + "model.json";
+        const metadataURL = URL + "metadata.json";
 
-            // load the model and metadata
-            // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
-            // or files from your local hard drive
-            // Note: the pose library adds "tmImage" object to your window (window.tmImage)
-            model = await tmImage.load(modelURL, metadataURL);
-            maxPredictions = model.getTotalClasses();
+        // load the model and metadata
+        // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+        // or files from your local hard drive
+        // Note: the pose library adds "tmImage" object to your window (window.tmImage)
+        model = await tmImage.load(modelURL, metadataURL);
+        maxPredictions = model.getTotalClasses();
 
-            // Convenience function to setup a webcam
-            const flip = true; // whether to flip the webcam
-            webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
-            await webcam.setup(); // request access to the webcam
-            await webcam.play();
-            window.requestAnimationFrame(loop);
+        // Convenience function to setup a webcam
+        const flip = true; // whether to flip the webcam
+        webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
+        await webcam.setup(); // request access to the webcam
+        await webcam.play();
+        window.requestAnimationFrame(loop);
 
-            // append elements to the DOM
-            document.getElementById("webcam-container").appendChild(webcam.canvas);
-            labelContainer = document.getElementById("label-container");
-            for (let i = 0; i < maxPredictions; i++) { // and class labels
-                labelContainer.appendChild(document.createElement("div"));
-            }
+        // append elements to the DOM
+        document.getElementById("webcam-container").appendChild(webcam.canvas);
+        labelContainer = document.getElementById("label-container");
+        for (let i = 0; i < maxPredictions; i++) { // and class labels
+            labelContainer.appendChild(document.createElement("div"));
+        }
+    }
+
+    async function loop() {
+        webcam.update(); // update the webcam frame
+        await predict();
+        window.requestAnimationFrame(loop);
+    }
+
+    // run the webcam image through the image model
+    async function predict() {
+        // predict can take in an image, video or canvas html element
+        const prediction = await model.predict(webcam.canvas);
+
+        //나중에 모두 하고나면 이부분은 항목별 일치확률을 보여주는 것으로 제거해도 무방.
+        for (let i = 0; i < maxPredictions; i++) {
+            const classPrediction =
+                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+            labelContainer.childNodes[i].innerHTML = classPrediction;
         }
 
-        async function loop() {
-            webcam.update(); // update the webcam frame
-            await predict();
-            window.requestAnimationFrame(loop);
+        //ajax로 요청을 보낼 값 초기값 -1
+        var predict_id = -1;
+
+        //해당 항목의 일치확률이 몇프로 이상이어야 해당 항목이라 판단할지 결정하는 변수
+        var check_probablity=0.95;
+        //0: 완벽 1: 안씀 2: 턱스크 3: 입스크
+
+        if(prediction[0].probability.toFixed(2)>check_probablity){
+            predict_id=0;
+        }
+        else if(prediction[1].probability.toFixed(2)>check_probablity){
+            predict_id=1;
+        }
+        else if(prediction[2].probability.toFixed(2)>check_probablity){
+            predict_id=2;
+        }
+        else if(prediction[3].probability.toFixed(2)>check_probablity){
+            predict_id=3;
         }
 
-        // run the webcam image through the image model
-        async function predict() {
-            // predict can take in an image, video or canvas html element
-            const prediction = await model.predict(webcam.canvas);
-            for (let i = 0; i < maxPredictions; i++) {
-                const classPrediction =
-                    prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-                labelContainer.childNodes[i].innerHTML = classPrediction;
-            }
+        //이전 결과와 다를떄만 ajax요청
+        //last_result_predict는 전역변수. 초기값 -999로 설정되어있다.
+        //이것 없으면 계속 요청이 보내진다.
+        if(last_result_predict!=predict_id){
+
+          //ajax로 서버에 그 id에 해당하는 이미지주소를 달라고 요청한다.
+          if(predict_id > 0){
+            //last_result_predict값을 지금 결과로 나옴 predict로 초기화해준다. 
+            last_result_predict = predict_id;
+            $(function() {
+                $.ajax({
+                    type: 'GET',
+                    datatype:'json',
+                    url: '/data?id='+predict_id,
+                    success: function(result) {
+                    //결과값 확인
+                    console.log(result);
+                  }
+                });
+              })
+          }
         }
+    }
     </script>
-  </body>
+   </body>
 </html>
