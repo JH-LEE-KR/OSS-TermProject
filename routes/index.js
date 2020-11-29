@@ -13,7 +13,8 @@ router.get('/data', function(req, res, next){
   id = req.query.id;
 
   data = {
-    image : "/images/"+id+".jpg"
+    image : "/images/"+id+".jpg",
+    audio : "/audio/"+id+".mp3"
   }
   //데이터 확인
   console.log(data);
