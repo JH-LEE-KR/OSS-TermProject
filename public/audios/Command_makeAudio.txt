@@ -1,0 +1,24 @@
+curl -v -X POST "https://kakaoi-newtone-openapi.kakao.com/v1/synthesize" \
+-H "Content-Type: application/xml" \
+-H "Authorization: KakaoAK b471fd473a02136533554c3c6c108c91" \
+-d '<speak><voice name="WOMAN_READ_CALM">정상</voice> </speak>' > 0.mp3
+
+curl -v -X POST "https://kakaoi-newtone-openapi.kakao.com/v1/synthesize" \
+-H "Content-Type: application/xml" \
+-H "Authorization: KakaoAK b471fd473a02136533554c3c6c108c91" \
+-d '<speak><voice name="WOMAN_READ_CALM">미착용</voice></speak>' > 1.mp3
+
+curl -v -X POST "https://kakaoi-newtone-openapi.kakao.com/v1/synthesize" \
+-H "Content-Type: application/xml" \
+-H "Authorization: KakaoAK b471fd473a02136533554c3c6c108c91" \
+-d '<speak><voice name="WOMAN_READ_CALM">턱스크</voice></speak>' > 2.mp3
+
+curl -v -X POST "https://kakaoi-newtone-openapi.kakao.com/v1/synthesize" \
+-H "Content-Type: application/xml" \
+-H "Authorization: KakaoAK b471fd473a02136533554c3c6c108c91" \
+-d '<speak><voice name="WOMAN_READ_CALM">입스크</voice></speak>' > 3.mp3
+
+curl -v -X POST "https://kakaoi-newtone-openapi.kakao.com/v1/synthesize" \
+-H "Content-Type: application/xml" \
+-H "Authorization: KakaoAK b471fd473a02136533554c3c6c108c91" \
+-d '<speak><voice name="WOMAN_READ_CALM">시작</voice> </speak>' > 4.mp3
