@@ -21,6 +21,24 @@
         <!--auto play 기능을 위해 iframe 사용 -->
         <iframe src="/audios/4.mp3" allow="autoplay" id="audio" style="display:none"></iframe>
     </div>
+    <form>
+        <fieldset style = "width:600px">
+            <legend>방문자 인적 사항</legend>
+            이름:
+            <input type='text' name='name' style="width:70px" required/>&nbsp;
+            전화번호:
+            <input type='text' name='number' style="width:250px" placeholder="XXX-XXXX-XXXX 형식으로 입력하세요." required/>&nbsp;
+            <div style="display:inline">신분:</div>
+            <select name = "id" style="width: 50;">
+                <option value = "재학생">재학생</option>
+                <option value = "휴학생">휴학생</option>
+                <option value = "직원">직원</option>
+                <option value = "외부인">외부인</option>
+            </select><br><br>
+            <input type = "submit" value = "제출"/>&nbsp;
+            <input type = "reset" value = "다시입력"/>
+        </fieldset> 
+    </form>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
