@@ -2,7 +2,13 @@
 <html>
   <head>
     <title><%= title %></title>
+
+    <!-- Bootstrap -->
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
+<<<<<<< HEAD
+=======
         <!-- Jquery를 불러온다 -->
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <script>
@@ -55,44 +61,68 @@
                 document.getElementById('link').setAttribute('download', fileName); // 다운로드 전 파일 이름을 변경해준다.
             };
         </script>
+>>>>>>> 915eacfc5f4f474bf100af252cf05cd2b665fe4f
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <!--https://teachablemachine.withgoogle.com/ 를 통해 학습시키고 얻은 스켈레톤 코드 -->
+    <!-- header -->
+    <header>
+        <p class="header_name">MWD</p>
+    </header>
 
-    <div>Teachable Machine Image Model</div>
-    <button type="button" onclick="init()">Start</button>
-    <div id="webcam-container"></div>
-    <div id="label-container"></div>
-    <div id="check_image">
-        <img src="/images/1.jpg">
+    <!-- main contents -->
+    <div class="container" style="margin-top: 30px">
+        <div class="box1">
+            <div id="webcam-container"></div>
+            <div id="label-container" ></div>
+        </div>
+        <div class="box2">
+            <div id="check_image">
+                <img class="alert_image" src="/images/1.jpg">
+            </div>
+
+            <!-- 인풋 폼 나중에 합치기 -->
+            <div class="col-lg-6">
+                <form>
+                    <legend>방문자 인적 사항</legend>
+                    <p>이름: <input class="form-control" type='text' id='name' placeholder="고길동">
+                    </p>
+                    <p>전화번호: <input class="form-control" type='text' id='number' placeholder="010-1234-1234" ></input></p>                
+                    <p>신분:
+                    <select id = "identity" class="form-control">
+                        <option value = "재학생">재학생</option>
+                        <option value = "휴학생">휴학생</option>
+                        <option value = "직원">직원</option>
+                        <option value = "외부인">외부인</option>
+                    </select>
+                    </p>
+                    <p>
+                        <input  type = "reset"  style="float:right; margin-left:5px; background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%); border: 0;" class="btn btn-warning"value = "다시입력"/>
+                        <button  type = "button" onclick="getInfo();" style="float:right; background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%); border: 0; " class="btn btn-success">제출</button>
+                    </p>
+                    <button type="button" onclick="save();">저장</button>
+                    <a href="#" id="link" download="name">다운로드</a>
+                </form>
+            </div>
+            <!-- 인풋 폼 종료 -->
+        </div>
     </div>
-    <div id = "check_audio">
+    <span id = "check_audio">
         <!--초기값으로 '시작'이라는 음성을 사용 -->
         <!--auto play 기능을 위해 iframe 사용 -->
         <iframe src="/audios/4.mp3" allow="autoplay" id="audio" style="display:none"></iframe>
-    </div>
-    <form>
-        <fieldset style = "width:600px">
-            <legend>방문자 인적 사항</legend>
-            이름:
-            <input type='text' id='name' style="width:70px" required/>&nbsp;
-            전화번호:
-            <input type='text' id='number' style="width:250px" placeholder="XXX-XXXX-XXXX 형식으로 입력하세요." required/>&nbsp;
-            <div style="display:inline">신분:</div>
-            <select id = "identity" style="width: 50;">
-                <option value = "재학생">재학생</option>
-                <option value = "휴학생">휴학생</option>
-                <option value = "직원">직원</option>
-                <option value = "외부인">외부인</option>
-            </select><br><br>
-            <button type="button" onclick="getInfo();">제출</button> 
-            <input  type = "reset" value = "다시입력"/>
-        </fieldset> 
-    </form>
-    <button type="button" onclick="save();">저장</button>
-    <a href="#" id="link" download="name">다운로드</a>
+<<<<<<< HEAD
+    </span>
+    <!-- footer -->
+    <footer>
+        <p>Mask-Wearing Discriminate Program Using Teachable Machine 2.0</p>
+        <p>Using teachable machine 2.0 provided by Google, a model was created that learned the type of mask wearing.</p>
+        <p>2017103978김태영  20174015이재호</p>
+        <p>contact us <a href="http://khuhub.khu.ac.kr/MWD/2020-02-OSS-TermProject">khuhub.khu.ac.kr/MWD/2020-02-OSS-TermProject</a></p>
+    </footer>
+
+
+    <!--https://teachablemachine.withgoogle.com/ 를 통해 학습시키고 얻은 스켈레톤 코드 -->
+
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -109,7 +139,7 @@
     var last_result_predict=-999;
 
     // Load the image model and setup the webcam
-    async function init() {
+    window.onload = async function init() {
         const modelURL = URL + "model.json";
         const metadataURL = URL + "metadata.json";
 
@@ -122,7 +152,7 @@
 
         // Convenience function to setup a webcam
         const flip = true; // whether to flip the webcam
-        webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
+        webcam = new tmImage.Webcam(550, 550, flip); // width, height, flip
         await webcam.setup(); // request access to the webcam
         await webcam.play();
         window.requestAnimationFrame(loop);
@@ -180,7 +210,7 @@
 
           //ajax로 서버에 그 id에 해당하는 이미지의 주소와 음성파일을 달라고 요청한다.
           if(predict_id > 0){
-            //last_result_predict값을 지금 결과로 나옴 predict로 초기화해준다. 
+            //last_result_predict값을 지금 결과로 나온 predict로 초기화해준다. 
             last_result_predict = predict_id;
             $(function() {
                 $.ajax({
@@ -206,7 +236,7 @@
         var audio = json_data.audio;
         var audioName = "";
         //이미지 태그 생성
-        strDOM += '<img src="'+images+'">';
+        strDOM += '<img class="alert_image" src="'+images+'">';
         //오디오 태그 생성
         audioName += '<iframe src="' + audio + '" allow="autoplay" id="audio" style="display:none"></iframe>';
         //#cehck_image div의 이미지 교체
