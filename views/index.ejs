@@ -7,8 +7,6 @@
     <!-- 합쳐지고 최소화된 최신 CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
-<<<<<<< HEAD
-=======
         <!-- Jquery를 불러온다 -->
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <script>
@@ -20,7 +18,40 @@
             var numArr = []; // 전화번호를 저장할 배열
             var idArr = []; // 신분을 저장할 배열
             var dayTimeArr = []; // 날짜와 시간을 저장할 배열
-    
+
+            function checkInput() // 입력값이 공백이니 아닌지 확인
+            {
+                if(document.getElementById('name').value == "" || document.getElementById('number').value == "")
+                {
+                    alert("이름과 전화번호를 정확히 기입해 주세요.");
+                    clear();
+                    return;
+                }
+                getInfo();
+            };
+            function checkName() // 올바른 이름 형태인지 확인
+            {
+                var name = document.getElementById('name').value;
+                var regex = /^[가-힣]{2,4}|[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
+                if (!(regex.test(name)))
+                {
+                    alert("이름을 정확히 입력해 주세요.");
+                    document.getElementById('name').value = "";
+                }
+            };
+
+            function checkNumber() // 올바른 전화번호 형태인지 확인
+            {
+                var number = document.getElementById('number').value;
+                var regex = /^\d{3}-\d{4}-\d{4}$/;
+                if (!(regex.test(number)))
+                {
+                    alert("010-XXXX-XXXX 형식에 맞게 입력해 주세요.");
+                    document.getElementById('number').value = "";
+                }
+
+            };
+
             function getDayTime() // 날짜와 시간을 구해주는 함수
             {
                 var today = new Date();
@@ -28,7 +59,13 @@
                 var time = today.toLocaleTimeString(); //시:분:초
                 return (day + ' ' + time);
             };
-    
+
+            function clear() // 데이터 제출 시 input box를 초기화 시킨다.
+            {
+                document.getElementById('name').value = "";
+                document.getElementById('number').value = "";
+            };
+
             function getInfo() // 입력받은 데이터를 배열에 저장한다.
             {
                 var temp_name = document.getElementById('name').value; 
@@ -44,9 +81,10 @@
                 console.log(idArr);
                 dayTimeArr.push(dateTime);
                 console.log(dayTimeArr);
+                clear();
     
             };
-    
+
             function save() // 배열에 저장한 데이터를 가공해 json파일의 형태로 만들고, 다운로드 링크를 생성한다.
             {
                 var obj = new Object();
@@ -60,8 +98,8 @@
                 console.log('Save Complete');
                 document.getElementById('link').setAttribute('download', fileName); // 다운로드 전 파일 이름을 변경해준다.
             };
+
         </script>
->>>>>>> 915eacfc5f4f474bf100af252cf05cd2b665fe4f
   </head>
   <body>
     <!-- header -->
@@ -84,11 +122,11 @@
             <div class="col-lg-6">
                 <form>
                     <legend>방문자 인적 사항</legend>
-                    <p>이름: <input class="form-control" type='text' id='name' placeholder="고길동">
+                    <p>이름: <input class="form-control" type='text' id='name' onblur="checkName();" placeholder="홍길동" required>
                     </p>
-                    <p>전화번호: <input class="form-control" type='text' id='number' placeholder="010-1234-1234" ></input></p>                
+                    <p>전화번호: <input class="form-control" type='text' id='number' onblur="checkNumber();" placeholder="010-XXXX-XXXX" required></input></p>                
                     <p>신분:
-                    <select id = "identity" class="form-control">
+                    <select id = "identity" class="form-control" required>
                         <option value = "재학생">재학생</option>
                         <option value = "휴학생">휴학생</option>
                         <option value = "직원">직원</option>
@@ -97,7 +135,7 @@
                     </p>
                     <p>
                         <input  type = "reset"  style="float:right; margin-left:5px; background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%); border: 0;" class="btn btn-warning"value = "다시입력"/>
-                        <button  type = "button" onclick="getInfo();" style="float:right; background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%); border: 0; " class="btn btn-success">제출</button>
+                        <button  type = "button" onclick="checkInput();" style="float:right; background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%); border: 0; " class="btn btn-success">제출</button>
                     </p>
                     <button type="button" onclick="save();">저장</button>
                     <a href="#" id="link" download="name">다운로드</a>
@@ -110,7 +148,6 @@
         <!--초기값으로 '시작'이라는 음성을 사용 -->
         <!--auto play 기능을 위해 iframe 사용 -->
         <iframe src="/audios/4.mp3" allow="autoplay" id="audio" style="display:none"></iframe>
-<<<<<<< HEAD
     </span>
     <!-- footer -->
     <footer>
