@@ -14,7 +14,7 @@ router.get('/data', function(req, res, next){
 
   data = {
     image : "/images/"+id+".jpg",
-    audio : "/audio"+id+".mp3"
+    audio : "/audios/"+id+".mp3"
   }
   //데이터 확인
   console.log(data);
