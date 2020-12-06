@@ -9,97 +9,7 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
         <!-- Jquery를 불러온다 -->
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <script>
-            var place = prompt("위치를 입력해 주세요. ex) 전자정보대학", ""); //위치 정보를 입력 받는다.
-            alert(place + '(으)로 설정되었습니다.');
-            var fileName = place + '.txt'; // 위치를 파일 이름으로 쓰기 위함.
-    
-            var nameArr = []; // 이름을 저장할 배열
-            var numArr = []; // 전화번호를 저장할 배열
-            var idArr = []; // 신분을 저장할 배열
-            var dayTimeArr = []; // 날짜와 시간을 저장할 배열
 
-            function checkInput() // 입력값이 공백이니 아닌지 확인
-            {
-                if(document.getElementById('name').value == "" || document.getElementById('number').value == "")
-                {
-                    alert("이름과 전화번호를 정확히 기입해 주세요.");
-                    clear();
-                    return;
-                }
-                getInfo();
-            };
-            function checkName() // 올바른 이름 형태인지 확인
-            {
-                var name = document.getElementById('name').value;
-                var regex = /^[가-힣]{2,4}|[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
-                if (!(regex.test(name)))
-                {
-                    alert("이름을 정확히 입력해 주세요.");
-                    document.getElementById('name').value = "";
-                }
-            };
-
-            function checkNumber() // 올바른 전화번호 형태인지 확인
-            {
-                var number = document.getElementById('number').value;
-                var regex = /^\d{3}-\d{4}-\d{4}$/;
-                if (!(regex.test(number)))
-                {
-                    alert("010-XXXX-XXXX 형식에 맞게 입력해 주세요.");
-                    document.getElementById('number').value = "";
-                }
-
-            };
-
-            function getDayTime() // 날짜와 시간을 구해주는 함수
-            {
-                var today = new Date();
-                var day = today.toLocaleDateString(); //년도.월.날짜
-                var time = today.toLocaleTimeString(); //시:분:초
-                return (day + ' ' + time);
-            };
-
-            function clear() // 데이터 제출 시 input box를 초기화 시킨다.
-            {
-                document.getElementById('name').value = "";
-                document.getElementById('number').value = "";
-            };
-
-            function getInfo() // 입력받은 데이터를 배열에 저장한다.
-            {
-                var temp_name = document.getElementById('name').value; 
-                var temp_num = document.getElementById('number').value;
-                var id_index = document.getElementById('identity');
-                var temp_id = id_index.options[id_index.selectedIndex].value;
-                var dateTime = getDayTime();
-                nameArr.push(temp_name);
-                console.log(nameArr);
-                numArr.push(temp_num);
-                console.log(numArr);
-                idArr.push(temp_id);
-                console.log(idArr);
-                dayTimeArr.push(dateTime);
-                console.log(dayTimeArr);
-                clear();
-    
-            };
-
-            function save() // 배열에 저장한 데이터를 가공해 json파일의 형태로 만들고, 다운로드 링크를 생성한다.
-            {
-                var obj = new Object();
-                for (var i = 0; i< nameArr.length; i++)
-                {
-                    obj[nameArr[i]] = {"전화번호": numArr[i], "신분": idArr[i], "일시": dayTimeArr[i]};
-                }
-                var obj_s = JSON.stringify(obj, null, "\t"); //json text화 시키기.
-                var dataUri = "data:application/json;charset=utf-8,"+ encodeURIComponent(obj_s);// 파일 링크 생성
-                var link = $("#link").attr("href", dataUri); 
-                console.log('Save Complete');
-                document.getElementById('link').setAttribute('download', fileName); // 다운로드 전 파일 이름을 변경해준다.
-            };
-
-        </script>
   </head>
   <body>
     <!-- header -->
@@ -256,6 +166,7 @@
 
                     //받아온 json데이터를 처리한다
                     process_json(result);
+                    getId(result);
                   }
                 });
               })
@@ -278,6 +189,115 @@
         //#check_audio div의 오디오 교체
         $('#check_audio').html(audioName);
     }
+
+            var place = prompt("위치를 입력해 주세요. ex) 전자정보대학", ""); //위치 정보를 입력 받는다.
+            alert(place + '(으)로 설정되었습니다.');
+            var fileName = place + '.txt'; // 위치를 파일 이름으로 쓰기 위함.
+    
+            var nameArr = []; // 이름을 저장할 배열
+            var numArr = []; // 전화번호를 저장할 배열
+            var idArr = []; // 신분을 저장할 배열
+            var dayTimeArr = []; // 날짜와 시간을 저장할 배열
+
+            function checkInput() // 입력값이 공백이니 아닌지 확인
+            {
+                if(document.getElementById('name').value == "" || document.getElementById('number').value == "")
+                {
+                    alert("이름과 전화번호를 정확히 기입해 주세요.");
+                    clear();
+                    return;
+                }
+                getInfo();
+            };
+            function checkName() // 올바른 이름 형태인지 확인
+            {
+                var name = document.getElementById('name').value;
+                var regex = /^[가-힣]{2,4}|[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
+                if (!(regex.test(name)))
+                {
+                    alert("이름을 정확히 입력해 주세요.");
+                    document.getElementById('name').value = "";
+                }
+            };
+
+            function checkNumber() // 올바른 전화번호 형태인지 확인
+            {
+                var number = document.getElementById('number').value;
+                var regex = /^\d{3}-\d{4}-\d{4}$/;
+                if (!(regex.test(number)))
+                {
+                    alert("010-XXXX-XXXX 형식에 맞게 입력해 주세요.");
+                    document.getElementById('number').value = "";
+                }
+
+            };
+
+            function getDayTime() // 날짜와 시간을 구해주는 함수
+            {
+                var today = new Date();
+                var day = today.toLocaleDateString(); //년도.월.날짜
+                var time = today.toLocaleTimeString(); //시:분:초
+                return (day + ' ' + time);
+            };
+
+            function clear() // 데이터 제출 시 input box를 초기화 시킨다.
+            {
+                document.getElementById('name').value = "";
+                document.getElementById('number').value = "";
+            };
+
+            var id = 0; // 인적 사항 제출 가능 여부를 결정할 마스크 착용 상태
+            function getId(result) // 마스크를 정확히 착용하지 않으면 인적 사항을 제출할 수 없다.
+            {
+                if(result.id != 1)
+                {
+                    id = 0;
+                }
+                else
+                {
+                    id = 1;
+                }
+            };
+
+            function getInfo() // 입력받은 데이터를 배열에 저장한다.
+            {
+                if(id != 1)
+                {
+                    var temp_name = document.getElementById('name').value;
+                    var temp_num = document.getElementById('number').value;
+                    var id_index = document.getElementById('identity');
+                    var temp_id = id_index.options[id_index.selectedIndex].value;
+                    var dateTime = getDayTime();
+                    nameArr.push(temp_name);
+                    console.log(nameArr);
+                    numArr.push(temp_num);
+                    console.log(numArr);
+                    idArr.push(temp_id);
+                    console.log(idArr);
+                    dayTimeArr.push(dateTime);
+                    console.log(dayTimeArr);
+                }
+
+                else
+                {
+                    alert("마스크를 정확히 착용해야 제출할 수 있습니다.");
+                }
+                clear();
+            };
+
+            function save() // 배열에 저장한 데이터를 가공해 json파일의 형태로 만들고, 다운로드 링크를 생성한다.
+            {
+                var obj = new Object();
+                for (var i = 0; i< nameArr.length; i++)
+                {
+                    obj[nameArr[i]] = {"전화번호": numArr[i], "신분": idArr[i], "일시": dayTimeArr[i]};
+                }
+                var obj_s = JSON.stringify(obj, null, "\t"); //json text화 시키기.
+                var dataUri = "data:application/json;charset=utf-8,"+ encodeURIComponent(obj_s);// 파일 링크 생성
+                var link = $("#link").attr("href", dataUri); 
+                console.log('Save Complete');
+                document.getElementById('link').setAttribute('download', fileName); // 다운로드 전 파일 이름을 변경해준다.
+            };
 
     </script>
    </body>
