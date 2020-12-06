@@ -2,19 +2,167 @@
 <html>
   <head>
     <title><%= title %></title>
+
+    <!-- Bootstrap -->
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
+        <!-- Jquery를 불러온다 -->
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script>
+            var place = prompt("위치를 입력해 주세요. ex) 전자정보대학", ""); //위치 정보를 입력 받는다.
+            alert(place + '(으)로 설정되었습니다.');
+            var fileName = place + '.txt'; // 위치를 파일 이름으로 쓰기 위함.
+    
+            var nameArr = []; // 이름을 저장할 배열
+            var numArr = []; // 전화번호를 저장할 배열
+            var idArr = []; // 신분을 저장할 배열
+            var dayTimeArr = []; // 날짜와 시간을 저장할 배열
+
+            function checkInput() // 입력값이 공백이니 아닌지 확인
+            {
+                if(document.getElementById('name').value == "" || document.getElementById('number').value == "")
+                {
+                    alert("이름과 전화번호를 정확히 기입해 주세요.");
+                    clear();
+                    return;
+                }
+                getInfo();
+            };
+            function checkName() // 올바른 이름 형태인지 확인
+            {
+                var name = document.getElementById('name').value;
+                var regex = /^[가-힣]{2,4}|[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
+                if (!(regex.test(name)))
+                {
+                    alert("이름을 정확히 입력해 주세요.");
+                    document.getElementById('name').value = "";
+                }
+            };
+
+            function checkNumber() // 올바른 전화번호 형태인지 확인
+            {
+                var number = document.getElementById('number').value;
+                var regex = /^\d{3}-\d{4}-\d{4}$/;
+                if (!(regex.test(number)))
+                {
+                    alert("010-XXXX-XXXX 형식에 맞게 입력해 주세요.");
+                    document.getElementById('number').value = "";
+                }
+
+            };
+
+            function getDayTime() // 날짜와 시간을 구해주는 함수
+            {
+                var today = new Date();
+                var day = today.toLocaleDateString(); //년도.월.날짜
+                var time = today.toLocaleTimeString(); //시:분:초
+                return (day + ' ' + time);
+            };
+
+            function clear() // 데이터 제출 시 input box를 초기화 시킨다.
+            {
+                document.getElementById('name').value = "";
+                document.getElementById('number').value = "";
+            };
+
+            function getInfo() // 입력받은 데이터를 배열에 저장한다.
+            {
+                var temp_name = document.getElementById('name').value; 
+                var temp_num = document.getElementById('number').value;
+                var id_index = document.getElementById('identity');
+                var temp_id = id_index.options[id_index.selectedIndex].value;
+                var dateTime = getDayTime();
+                nameArr.push(temp_name);
+                console.log(nameArr);
+                numArr.push(temp_num);
+                console.log(numArr);
+                idArr.push(temp_id);
+                console.log(idArr);
+                dayTimeArr.push(dateTime);
+                console.log(dayTimeArr);
+                clear();
+    
+            };
+
+            function save() // 배열에 저장한 데이터를 가공해 json파일의 형태로 만들고, 다운로드 링크를 생성한다.
+            {
+                var obj = new Object();
+                for (var i = 0; i< nameArr.length; i++)
+                {
+                    obj[nameArr[i]] = {"전화번호": numArr[i], "신분": idArr[i], "일시": dayTimeArr[i]};
+                }
+                var obj_s = JSON.stringify(obj, null, "\t"); //json text화 시키기.
+                var dataUri = "data:application/json;charset=utf-8,"+ encodeURIComponent(obj_s);// 파일 링크 생성
+                var link = $("#link").attr("href", dataUri); 
+                console.log('Save Complete');
+                document.getElementById('link').setAttribute('download', fileName); // 다운로드 전 파일 이름을 변경해준다.
+            };
+
+        </script>
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <!-- header -->
+    <header>
+        <p class="header_name">MWD</p>
+    </header>
+
+    <!-- main contents -->
+    <div class="container" style="margin-top: 30px">
+        <div class="box1">
+            <div id="webcam-container"></div>
+            <div id="label-container" ></div>
+        </div>
+        <div class="box2">
+            <div id="check_image">
+                <img class="alert_image" src="/images/2.jpg">
+            </div>
+
+            <!-- 인풋 폼 나중에 합치기 -->
+            <div class="col-lg-6">
+                <form>
+                    <legend>방문자 인적 사항</legend>
+                    <p>이름: <input class="form-control" type='text' id='name' onblur="checkName();" placeholder="홍길동" required>
+                    </p>
+                    <p>전화번호: <input class="form-control" type='text' id='number' onblur="checkNumber();" placeholder="010-XXXX-XXXX" required></input></p>                
+                    <p>신분:
+                    <select id = "identity" class="form-control" required>
+                        <option value = "재학생">재학생</option>
+                        <option value = "휴학생">휴학생</option>
+                        <option value = "직원">직원</option>
+                        <option value = "외부인">외부인</option>
+                    </select>
+                    </p>
+                    <p>
+                        <input  type = "reset"  style="float:right; margin-left:5px; background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%); border: 0;" class="btn btn-warning"value = "다시입력"/>
+                        <button  type = "button" onclick="checkInput();" style="float:right; background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%); border: 0; " class="btn btn-success">제출</button>
+                    </p>
+                    <button type="button" onclick="save();">저장</button>
+                    <a href="#" id="link" download="name">다운로드</a>
+                </form>
+            </div>
+            <!-- 인풋 폼 종료 -->
+        </div>
+    </div>
+    <span id = "check_audio">
+        <!--초기값으로 '시작'이라는 음성을 사용 -->
+        <!--auto play 기능을 위해 iframe 사용 -->
+        <iframe src="/audios/3.mp3" allow="autoplay" id="audio" style="display:none"></iframe>
+    </span>
+    <!-- footer -->
+    <footer>
+        <p>Mask-Wearing Discriminate Program Using Teachable Machine 2.0</p>
+        <p>Using teachable machine 2.0 provided by Google, a model was created that learned the type of mask wearing.</p>
+        <p>2017103978김태영  20174015이재호</p>
+        <p>contact us <a href="http://khuhub.khu.ac.kr/MWD/2020-02-OSS-TermProject">khuhub.khu.ac.kr/MWD/2020-02-OSS-TermProject</a></p>
+    </footer>
+
 
     <!--https://teachablemachine.withgoogle.com/ 를 통해 학습시키고 얻은 스켈레톤 코드 -->
-    <div>Teachable Machine Image Model</div>
-    <button type="button" onclick="init()">Start</button>
-    <div id="webcam-container"></div>
-    <div id="label-container"></div>
+
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
         // More API functions here:
         // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
@@ -51,22 +199,83 @@
             }
         }
 
-        async function loop() {
-            webcam.update(); // update the webcam frame
-            await predict();
-            window.requestAnimationFrame(loop);
+    async function loop() {
+        webcam.update(); // update the webcam frame
+        await predict();
+        window.requestAnimationFrame(loop);
+    }
+
+    // run the webcam image through the image model
+    async function predict() {
+        // predict can take in an image, video or canvas html element
+        const prediction = await model.predict(webcam.canvas);
+
+        //나중에 모두 하고나면 이부분은 항목별 일치확률을 보여주는 것으로 제거해도 무방.
+        for (let i = 0; i < maxPredictions; i++) {
+            const classPrediction =
+                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+            labelContainer.childNodes[i].innerHTML = classPrediction;
         }
 
-        // run the webcam image through the image model
-        async function predict() {
-            // predict can take in an image, video or canvas html element
-            const prediction = await model.predict(webcam.canvas);
-            for (let i = 0; i < maxPredictions; i++) {
-                const classPrediction =
-                    prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-                labelContainer.childNodes[i].innerHTML = classPrediction;
-            }
+        //ajax로 요청을 보낼 값 초기값 -1
+        var predict_id = -1;
+
+        //해당 항목의 일치확률이 몇프로 이상이어야 해당 항목이라 판단할지 결정하는 변수
+        var check_probablity=0.95;
+        //0: 완벽 1: 불량 2: 배경 -> 사람이 없는 경우
+
+        if(prediction[0].probability.toFixed(2)>check_probablity){
+            predict_id=0;
         }
+        else if(prediction[1].probability.toFixed(2)>check_probablity){
+            predict_id=1;
+        }
+        else if(prediction[2].probability.toFixed(2)>check_probablity){
+            predict_id=2;
+        }
+
+        //이전 결과와 다를떄만 ajax요청
+        //last_result_predict는 전역변수. 초기값 -999로 설정되어있다.
+        //이것 없으면 계속 요청이 보내진다.
+        if(last_result_predict!=predict_id){
+
+          //ajax로 서버에 그 id에 해당하는 이미지의 주소와 음성파일을 달라고 요청한다.
+          if(predict_id >= 0){
+            //last_result_predict값을 지금 결과로 나온 predict로 초기화해준다. 
+            last_result_predict = predict_id;
+            $(function() {
+                $.ajax({
+                    type: 'GET',
+                    datatype:'json',
+                    url: '/data?id='+predict_id,
+                    success: function(result) {
+                    console.log(result);
+
+                    //받아온 json데이터를 처리한다
+                    process_json(result);
+                  }
+                });
+              })
+          }
+        }
+    }
+
+    //JSON 데이터 처리
+    function process_json(json_data){
+        var images = json_data.image;
+        var strDOM = "";
+        var audio = json_data.audio;
+        var audioName = "";
+        //이미지 태그 생성
+        strDOM += '<img class="alert_image" src="'+images+'">';
+        //오디오 태그 생성
+        audioName += '<iframe src="' + audio + '" allow="autoplay" id="audio" style="display:none"></iframe>';
+        //#cehck_image div의 이미지 교체
+        $('#check_image').html(strDOM);
+        //#check_audio div의 오디오 교체
+        $('#check_audio').html(audioName);
+    }
+
     </script>
-  </body>
+   </body>
 </html>

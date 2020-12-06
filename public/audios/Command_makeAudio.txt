@@ -1,0 +1,14 @@
+curl -v -X POST "https://kakaoi-newtone-openapi.kakao.com/v1/synthesize" \
+-H "Content-Type: application/xml" \
+-H "Authorization: {KAKAO API KEY}" \
+-d '<speak><voice name="WOMAN_READ_CALM">정상</voice> </speak>' > 0.mp3
+
+curl -v -X POST "https://kakaoi-newtone-openapi.kakao.com/v1/synthesize" \
+-H "Content-Type: application/xml" \
+-H "Authorization: {KAKAO API KEY}" \
+-d '<speak><voice name="WOMAN_READ_CALM">마스크를 정확히 착용하세요.</voice></speak>' > 1.mp3
+
+curl -v -X POST "https://kakaoi-newtone-openapi.kakao.com/v1/synthesize" \
+-H "Content-Type: application/xml" \
+-H "Authorization: {KAKAO API KEY}" \
+-d '<speak><voice name="WOMAN_READ_CALM">시작</voice> </speak>' > 4.mp3
