@@ -28,7 +28,6 @@
 <br />
 <p align="center">
   <img src="/readme_img/camera.png"  width="100" height="100">
-  </a>
 
   <h3 align="center">Mask-Wearing Discriminator!</h3>
 
