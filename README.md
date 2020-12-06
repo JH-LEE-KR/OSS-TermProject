@@ -27,24 +27,13 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="readme_img/logo.png" alt="Logo" width="80" height="80">
+  <img src="/readme_img/camera.png"  width="100" height="100">
   </a>
 
   <h3 align="center">Mask-Wearing Discriminator!</h3>
 
   <p align="center">
-    구글 Teachable Machine 2.0을 이용하여 마스크 착용 검사 및 출입부 작성 기능을 제공합니다.
-    <br />
-    <!--여기 뭐 넣을지 생각해보자-->
-    <a href="http://khuhub.khu.ac.kr/MWD/2020-02-OSS-TermProject"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://teachablemachine.withgoogle.com">Teachable Machine 2.0</a>
-    ·
-    <a href="https://www.w3schools.com/">W3schools</a>
-    ·
-    <a href="http://khuhub.khu.ac.kr/MWD/2020-02-OSS-TermProject/issues">Request Feature</a>
+    웹캠을 이용한 실시간 마스크 착용 판별 및 출입부 작성 기능을 제공합니다.
   </p>
 </p>
 
@@ -52,7 +41,7 @@
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
-  <summary>Table of Contents</summary>
+  <summary>Contents</summary>
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
@@ -63,8 +52,8 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#prerequisites">Installation</a></li>
+        <li><a href="#installation">Initial setting</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
@@ -74,7 +63,6 @@
     <li><a href="#reference">Reference</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
 
@@ -93,13 +81,13 @@ Teachable Machine 2.0을 이용해 마스크 착용을 유형별로 학습시킨
 
 
 ### Built With
-
 * [Bootstrap](https://getbootstrap.com)
 * [JQuery](https://jquery.com)
 * [Nodejs](https://nodejs.org)
  - [express](https://github.com/expressjs/express)
  - [ejs](https://github.com/mde/ejs)
 * [Teachable Machine](https://teachablemachine.withgoogle.com)
+* [Kakao TTS API](https://developers.kakao.com/docs/latest/ko/voice/common)
 
 
 
@@ -109,65 +97,73 @@ Teachable Machine 2.0을 이용해 마스크 착용을 유형별로 학습시킨
 
 ### Installation
 
-1. Clone the repo
+1. Repository Clone 하기
    ```sh
    git clone http://khuhub.khu.ac.kr/MWD/2020-02-OSS-TermProject.git
    ```
-2. Install NPM packages
+2. NPM 패키지 설치하기
    ```sh
    npm install
    ```
-3. Enter your API in `index.ejs`
+3. `index.ejs`에 API 넣기
    ```JS
-    const URL = 'ENTER YOUR Teachable Machine Model Url';
+    const URL = 'Teachable Machine 모델의 Url을 입력';
    ```
-4. Start Server in npm located.
+4. NPM을 이용해 서버 시작하기
    ```sh
    npm start
    ```
 ### Initial setting
 1. Main page 접속<br>
-  1.1 https://localhost:3000을 통해 Main page에 접속합니다.<br><br>
+  1.1 https://localhost:3000 으로 Main page에 접속합니다.<br><br>
 2. 카메라 허용<br>
-  2.1 카메라 허용 메시지가 표시되면 허용을 선택합니다.<br><br>
+  2.1 카메라 권한 요청 메시지가 표시되면 허용을 선택합니다.<br><br>
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 <!-- 사진 순서별로 정렬할 수 있도록. -->
-[![Product Name Screen Shot][product-screenshot1]]()<br><br>
-[![Product Name Screen Shot][product-screenshot2]]()<br><br>
-[![Product Name Screen Shot][product-screenshot3]]()<br><br>
+사용하는 장소를 입력해 준다.<br>
+<img src="/readme_img/1.png"><br><br>
+
 1. 마스크 착용 판별 기능<br>
   1.1. 카메라 정면을 바라보고 서있는다. <br>
   1.2. 마스크 착용 여부에 따라 영상 출력부 우측의 이미지가 변하고 소리가 출력된다.<br>
-<br>
+  * 정상 착용 예시<br>
+  <img src="/readme_img/정상.jpg"><br><br>
+  * 불량 착용 예시<br>
+  <img src="/readme_img/불량.jpg"><br><br>
+
 2. 출입내역 기록 기능<br>
   2.1. 처음 페이지에 접속하여 출입내역을 작성할 곳의 위치를 입력한다.<br>
   2.2. 건물에 출입하는 인원들은 캠 앞에서서 이름, 전화번호, 신분을 선택하고 제출을 누른다.<br/>
   2.3. 이때 마스크를 착용하지 않았다면 작성한 내용을 제출이 불가능하다.<br><br>
+  * 인적 사항 입력란<br>
+  <img src="/readme_img/인적사항.jpg"><br><br>
+
 3. 출입내역 저장 기능<br>
   3.1 지금까지 기록한 내용들을 '저장' 버튼을 눌러 파일을 생성한다.<br>
   3.2 생성한 파일을 '다운로드'를 통해 로컬에 저장한다.<br><br>
-
+  * 다운로드 예시<br>
+  <img src="/readme_img/다운로드.jpg"><br><br>
 
 
 
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](http://khuhub.khu.ac.kr/MWD/2020-02-OSS-TermProject/issues) for a list of proposed features (and known issues).
+제안된 기능 및 발견된 오류는 목록은 [Issues](http://khuhub.khu.ac.kr/MWD/2020-02-OSS-TermProject/issues) 를 참조하십시오.
 
 
 
 <!-- PRECAUTION -->
-## Precautions
-아래 주의사항에 유의하여 사용해주세요.<br>
+## Precaution
+아래 주의사항에 유의해 사용해 주세요. <br>
 **1. 마스크 착용 여부 판별에 웹캠의 실시간 영상 데이터를 사용. 브라우저의 웹캠 접근 권한 허용 필수. 웹캠 없이도 출입자 인적사항 기록은 가능하나 마스크 착용 여부 판별은 불가.**<br>
 **2. 인터넷 브라우저별로 json 및 txt 파일 생성 방법이 달라 Internet Explorer에서는 출입자 인적사항 기록은 가능하나 저장은 불가**<br>
 **3. Internet Explorer에서 대화 상자(Prompt)의 출력 방식이 Chrome 과는 달라 대화 상자 출력 불가. 따라서 초기에 위치 입력이 불가**<br> 
 **4. 출입자 인적사항을 기록한 파일을 다운로드 시 반드시 로컬의 Download 폴더에 저장됨. 저장 경로 변경 불가.**<br> 
 **5. 웹캠 앞에서의 재빠른 움직임은 마스크 착용 여부를 정확히 판별하지 못할 수 있음.**<br> 
-
+**6. 크롬 브라우저의 특성상 첫 음성 출력에 소요되는 시간이 지연될 수 있음.**<br> 
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -191,6 +187,8 @@ See the [open issues](http://khuhub.khu.ac.kr/MWD/2020-02-OSS-TermProject/issues
     ·
 <a href="https://devdocs.io/node/">Node.js</a>
 
+<a href="https://developers.kakao.com/docs/latest/ko/voice/common">Kakao TTS API</a>
+
 
 <!-- LICENSE -->
 ## License
@@ -202,47 +200,12 @@ GPL-v3.0 라이센스를 적용합니다. 자세한 정보는 [License][license-
 
 <!-- CONTACT -->
 ## Contact
-Taeyoung Kim - rlaxodud9809@khu.ac.kr<br>
-Jaeho Lee - dlwogh9344@khu.ac.kr
+[Taeyoung Kim] rlaxodud9809@khu.ac.kr<br>
+[Jaeho Lee] dlwogh9344@khu.ac.kr<br>
 
 
 Project Link: [http://khuhub.khu.ac.kr/MWD/2020-02-OSS-TermProject](http://khuhub.khu.ac.kr/MWD/2020-02-OSS-TermProject)
 
 
 
-<!-- ACKNOWLEDGEMENTS -->
-<!--## Acknowledgements
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Img Shields](https://shields.io)
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Pages](https://pages.github.com)
-* [Animate.css](https://daneden.github.io/animate.css)
-* [Loaders.css](https://connoratherton.com/loaders)
-* [Slick Carousel](https://kenwheeler.github.io/slick)
-* [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
-* [Sticky Kit](http://leafo.net/sticky-kit)
-* [JVectorMap](http://jvectormap.com)
-* [Font Awesome](https://fontawesome.com)-->
-
-
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-<!--[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: http://khuhub.khu.ac.kr/MWD/2020-02-OSS-TermProject/graphs/master/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew -->
-
 [license-url]: http://khuhub.khu.ac.kr/MWD/2020-02-OSS-TermProject/blob/master/LICENSE.txt
-[product-screenshot1]: ./readme_img/1.png
-[product-screenshot2]: ./readme_img/2.png
-[product-screenshot3]: ./readme_img/3.png
