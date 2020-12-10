@@ -27,7 +27,9 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <img src="/readme_img/camera.png"  width="100" height="100">
+<a href="http://khuhub.khu.ac.kr/MWD/2020-02-OSS-TermProject/">
+  <img src="/readme_img/camera.png"  width="80" height="80">
+  </a>
   </p>
   <h3 align="center">Mask-Wearing Discriminator!</h3>
 
@@ -89,6 +91,46 @@ Teachable Machine 2.0을 이용해 마스크 착용을 유형별로 학습시킨
   * [selenium](https://selenium-python.readthedocs.io)
 * [Teachable Machine](https://teachablemachine.withgoogle.com)
 * [Kakao TTS API](https://developers.kakao.com/docs/latest/ko/voice/common)
+* Directory structure
+.
+└── 2020-02-OSS-TermProject
+    ├── LICENSE.txt
+    ├── README.md
+    ├── app.js
+    ├── bin
+    │   └── www
+    ├── package-lock.json
+    ├── package.json
+    ├── public
+    │   ├── audios
+    │   │   ├── 0.mp3
+    │   │   ├── 1.mp3
+    │   │   ├── 2.mp3
+    │   │   ├── 3.mp3
+    │   │   └── Command_makeAudio.txt
+    │   ├── images
+    │   │   ├── 0.jpg
+    │   │   ├── 1.jpg
+    │   │   └── 2.jpg
+    │   └── stylesheets
+    │       └── style.css
+    ├── python
+    │   ├── google.py
+    │   ├── keywords.txt
+    │   └── requirements.txt
+    ├── readme_img
+    │   ├── 1.png
+    │   ├── camera.png
+    │   ├── ?\210?\237\211.jpg
+    │   ├── ?\225?\203\201.jpg
+    │   ├── ?\213??\232??\234?\223\234.jpg
+    │   └── ?\235??\201?\202??\225?.jpg
+    ├── routes
+    │   ├── index.js
+    │   └── users.js
+    └── views
+        ├── error.ejs
+        └── index.ejs
 
 
 
@@ -215,6 +257,10 @@ Teachable Machine 2.0을 이용해 마스크 착용을 유형별로 학습시킨
 <a href="https://selenium-python.readthedocs.io">selenium</a>
     .
 <a href="https://developers.kakao.com/docs/latest/ko/voice/common">Kakao TTS API</a>
+    .
+<a href="https://jquery.com/">Jquery</a>
+    .
+<a href="http://bootstrapk.com/">Bootstrap</a>
 
 
 <!-- LICENSE -->
