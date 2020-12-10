@@ -28,13 +28,12 @@
 <br />
 <p align="center">
   <img src="/readme_img/camera.png"  width="100" height="100">
-
+  </p>
   <h3 align="center">Mask-Wearing Discriminator!</h3>
 
   <p align="center">
     웹캠을 이용한 실시간 마스크 착용 판별 및 출입부 작성 기능을 제공합니다.
   </p>
-</p>
 
 
 
@@ -178,7 +177,7 @@ Teachable Machine 2.0을 이용해 마스크 착용을 유형별로 학습시킨
 <!-- ROADMAP -->
 ## Roadmap
 
-제안된 기능 및 발견된 오류는 목록은 [Issues](http://khuhub.khu.ac.kr/MWD/2020-02-OSS-TermProject/issues) 를 참조하십시오.
+제안된 기능 및 발견된 오류 목록은 [Issues](http://khuhub.khu.ac.kr/MWD/2020-02-OSS-TermProject/issues) 를 참조하십시오.
 
 
 
@@ -197,12 +196,11 @@ Teachable Machine 2.0을 이용해 마스크 착용을 유형별로 학습시킨
 
 해당 프로젝트에 기여하고 싶다면 아래의 절차를 따라주세요. <br>
 **어떠한 기여도 환영입니다!!**.<br>
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
+1. 프로젝트를 fork 해주세요.
+2. branch를 만들어주세요. (`git checkout -b feature/AmazingFeature`)
+3. 변경사항을 commit 해주세요. (`git commit -m 'Add some AmazingFeature'`)
+4. branch에 push 해주세요. (`git push origin feature/AmazingFeature`)
+5. merge request 해주세요.
 
 <!-- Reference -->
 ## Reference
@@ -215,7 +213,7 @@ Teachable Machine 2.0을 이용해 마스크 착용을 유형별로 학습시킨
 <a href="https://devdocs.io/node/">Node.js</a>
     ·
 <a href="https://selenium-python.readthedocs.io">selenium</a>
-
+    .
 <a href="https://developers.kakao.com/docs/latest/ko/voice/common">Kakao TTS API</a>
 
 
