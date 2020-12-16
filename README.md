@@ -222,6 +222,9 @@ Teachable Machine 2.0을 이용해 마스크 착용을 유형별로 학습시킨
 <a href="https://jquery.com/">Jquery</a>
     .
 <a href="http://bootstrapk.com/">Bootstrap</a>
+    .
+<a href="https://www.youtube.com/watch?v=1b7pXC1-IbE">조코딩</a>
+
 
 
 <!-- LICENSE -->

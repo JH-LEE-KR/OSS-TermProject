@@ -6,7 +6,7 @@
 
 var app = require('../app');
 var debug = require('debug')('2020-02-oss-termproject:server');
-const domain = "www.khumwd.ml"
+const domain = "www.osstestkim.ml"
 const sslport = 8080;
 
 const fs = require('fs');
